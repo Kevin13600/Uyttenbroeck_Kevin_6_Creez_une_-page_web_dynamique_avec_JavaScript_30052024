@@ -4,13 +4,59 @@ document.addEventListener('DOMContentLoaded', async () => {
   try {
     // Récupérer les travaux depuis l'API
     const works = await fetchData('works');
+    // Stocker les travaux dans allItems
+    allItems = works;
     // Appeler la fonction pour afficher les travaux dans la galerie
-    populateGallery(works);
+    populateGallery(allItems);
+    // Créer les boutons de filtre après avoir récupéré les données
+    createFilterButtons();
   } catch (error) {
     // Afficher un message d'erreur en cas de problème avec la requête
     document.getElementById('error').textContent = 'Erreur : ' + error.message;
   }
 });
+
+const filterarray = ["Tous", "Objets", "Appartements", "Hotels & restaurants"];
+let allItems = [];
+
+// Fonction pour créer les boutons de filtre
+function createFilterButtons() {
+  const filterContainer = document.querySelector(".filter");
+  filterContainer.innerHTML = ''; // Vider les filtres existants s'il y en a
+
+  filterarray.forEach((filter, index) => {
+    const filterbutton = document.createElement("button");
+    filterbutton.classList.add('filter-btn');
+    filterbutton.innerHTML = filter;
+
+    filterbutton.addEventListener('click', () => {
+      filterGallery(filter);
+      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('filter-btn-selected'));
+      filterbutton.classList.add('filter-btn-selected');
+    });
+
+    if (index === 0) {
+      filterbutton.classList.add('filter-btn-selected');
+    }
+
+    filterContainer.appendChild(filterbutton);
+  });
+}
+
+// Fonction pour filtrer la galerie
+function filterGallery(filter) {
+  let filteredItems;
+
+  if (filter === "Tous") {
+    filteredItems = allItems;
+  } else {
+    filteredItems = allItems.filter(item => item.category.name === filter);
+  }
+  populateGallery(filteredItems);
+}
+
+
+
 
 // Fonction pour remplir la galerie avec les travaux
 function populateGallery(works) {
