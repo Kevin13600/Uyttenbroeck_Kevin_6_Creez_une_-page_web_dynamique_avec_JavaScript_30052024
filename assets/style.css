@@ -52,12 +52,24 @@ body {
 	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
+	display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 header {
 	display: flex;
 	justify-content: space-between;
 	margin: 50px 0
 }
+
+main {
+    flex: 1; /* Fait en sorte que le contenu principal s'étende pour remplir l'espace restant */
+}
+
+footer {
+    margin-top: auto; /* Le pied de page est poussé en bas de la page */
+}
+
 section {
 	margin: 50px 0
 }
@@ -98,6 +110,11 @@ nav li {
 li:hover {
 	color: #B1663C;
 }
+
+a {
+	text-decoration: none;
+}
+
 #introduction {
 	display: flex;
 	align-items: center;
@@ -140,6 +157,7 @@ li:hover {
  	font-weight: 700;
   	font-size: 16px;
 	color: #1D6154;
+	cursor: pointer;
 }
 
 .filter-btn-selected {
@@ -159,6 +177,60 @@ li:hover {
 	width: 100%;
 
 }
+
+.login {
+	margin-top: 150px;
+	margin-bottom: 37px;
+	text-align: center;
+}
+
+.login-form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	
+}
+
+.login-form > div {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+}
+
+.login-form input[type="email"],
+.login-form input[type="password"] {
+	width: 379px;
+	height: 51px;
+	border: none;
+	margin-top: 7px;
+}
+
+.login-form input[type="submit"] {
+	width: 179px;
+	height: 36px;
+	border-radius: 60px;
+}
+
+.login-form > .email {
+	margin-bottom: 30px;
+}
+
+.email,
+.password {
+	font-family: "Work Sans", sans-serif;
+}
+
+.forgot-password {
+	margin-top: 28px;
+	display: flex;
+	justify-content: center;
+}
+
+.forgot-password a {
+	color: #000000;
+	text-decoration: underline;
+}
+
 #contact {
 	width: 50%;
 	margin: auto;

@@ -1,17 +1,17 @@
 import { fetchData } from '../script/api.js';
+// Récupérer les travaux depuis l'API
+// Stocker les travaux dans allItems
+// Appeler la fonction pour afficher les travaux dans la galerie
+// Créer les boutons de filtre après avoir récupéré les données
+// Afficher un message d'erreur en cas de problème avec la requête
 
 document.addEventListener('DOMContentLoaded', async () => {
   try {
-    // Récupérer les travaux depuis l'API
     const works = await fetchData('works');
-    // Stocker les travaux dans allItems
     allItems = works;
-    // Appeler la fonction pour afficher les travaux dans la galerie
     populateGallery(allItems);
-    // Créer les boutons de filtre après avoir récupéré les données
     createFilterButtons();
   } catch (error) {
-    // Afficher un message d'erreur en cas de problème avec la requête
     document.getElementById('error').textContent = 'Erreur : ' + error.message;
   }
 });
@@ -59,9 +59,9 @@ function filterGallery(filter) {
 
 
 // Fonction pour remplir la galerie avec les travaux
+// Vider la galerie avant d'ajouter de nouveaux éléments
 function populateGallery(works) {
   const gallery = document.getElementById('gallery');
-  // Vider la galerie avant d'ajouter de nouveaux éléments
   gallery.innerHTML = '';
 
   // Pour chaque travail, créer les éléments nécessaires et les ajouter à la galerie
