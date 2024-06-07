@@ -16,13 +16,30 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
-const filterarray = ["Tous", "Objets", "Appartements", "Hotels & restaurants"];
 let allItems = [];
 
+// Fonction pour récupérer les catégories depuis l'API
+async function fetchCategories() {
+  try {
+    const response = await fetch('http://localhost:5678/api/categories');
+    if (!response.ok) {
+      throw new Error('Erreur lors de la récupération des catégories');
+    }
+    const categories = await response.json();
+    return categories;
+  } catch (error) {
+    console.error('Erreur:', error);
+    return []; // Retourne un tableau vide en cas d'erreur
+  }
+}
+
 // Fonction pour créer les boutons de filtre
-function createFilterButtons() {
+async function createFilterButtons() {
   const filterContainer = document.querySelector(".filter");
   filterContainer.innerHTML = ''; // Vider les filtres existants s'il y en a
+
+  const categories = await fetchCategories();
+  const filterarray = ["Tous", ...categories.map(category => category.name)];
 
   filterarray.forEach((filter, index) => {
     const filterbutton = document.createElement("button");
@@ -55,11 +72,7 @@ function filterGallery(filter) {
   populateGallery(filteredItems);
 }
 
-
-
-
 // Fonction pour remplir la galerie avec les travaux
-// Vider la galerie avant d'ajouter de nouveaux éléments
 function populateGallery(works) {
   const gallery = document.getElementById('gallery');
   gallery.innerHTML = '';
@@ -80,3 +93,6 @@ function populateGallery(works) {
     gallery.appendChild(figure);
   });
 }
+
+// Appel initial pour créer les boutons de filtre et récupérer les travaux
+createFilterButtons();
