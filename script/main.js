@@ -1,4 +1,4 @@
-import { fetchData } from '../script/api.js';
+import { fetchData, fetchCategories } from '../script/api.js';
 // Récupérer les travaux depuis l'API
 // Stocker les travaux dans allItems
 // Appeler la fonction pour afficher les travaux dans la galerie
@@ -17,21 +17,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 let allItems = [];
-
-// Fonction pour récupérer les catégories depuis l'API
-async function fetchCategories() {
-  try {
-    const response = await fetch('http://localhost:5678/api/categories');
-    if (!response.ok) {
-      throw new Error('Erreur lors de la récupération des catégories');
-    }
-    const categories = await response.json();
-    return categories;
-  } catch (error) {
-    console.error('Erreur:', error);
-    return []; // Retourne un tableau vide en cas d'erreur
-  }
-}
 
 // Fonction pour créer les boutons de filtre
 async function createFilterButtons() {
@@ -78,16 +63,13 @@ function populateGallery(works) {
   gallery.innerHTML = '';
 
   // Pour chaque travail, créer les éléments nécessaires et les ajouter à la galerie
-  works.forEach(work => {
+  works.forEach(({ imageUrl, title }) => {
     const figure = document.createElement('figure');
-
     const img = document.createElement('img');
-    img.src = work.imageUrl;
-    img.alt = work.title;
-
+    img.src = imageUrl;
+    img.alt = title;
     const figcaption = document.createElement('figcaption');
-    figcaption.textContent = work.title;
-
+    figcaption.textContent = title;
     figure.appendChild(img);
     figure.appendChild(figcaption);
     gallery.appendChild(figure);

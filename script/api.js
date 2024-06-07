@@ -37,3 +37,13 @@ export async function fetchData(endpoint) {
 }
 
 
+// Fonction pour récupérer les catégories depuis l'API
+export async function fetchCategories() {
+  try {
+    return await fetchData('categories');
+  } catch (error) {
+    console.error('Erreur lors de la récupération des catégories :', error);
+    return []; // Retourne un tableau vide en cas d'erreur
+  }
+}
+
