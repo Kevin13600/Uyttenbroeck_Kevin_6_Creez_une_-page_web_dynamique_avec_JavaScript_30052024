@@ -25,17 +25,17 @@
 </header>
 <main>
     <h2 class="login">Log in</h2>
-    <form action="#" method="get" class="login-form">
+    <form class="login-form">
         <div class="email">
             <label for="email">E-mail</label>
-            <input type="email" name="email" id="email" required>
+            <input type="email" name="email" id="email" autocomplete="email" required>
         </div>
         <div class="password">
             <label for="pass">Mot de passe</label>
-            <input type="password" name="password" id="pass" required>
+            <input type="password" name="password" id="pass" autocomplete="current-password" required>
         </div>
         <div class="submit">
-            <input type="submit" value="Se connecter">
+            <button type="submit">Se connecter</button>
         </div>
     </form>
     <span class="forgot-password">

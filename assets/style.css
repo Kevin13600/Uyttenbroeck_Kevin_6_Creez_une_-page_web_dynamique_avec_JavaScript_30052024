@@ -205,10 +205,15 @@ a {
 	margin-top: 7px;
 }
 
-.login-form input[type="submit"] {
+.login-form button[type="submit"] {
 	width: 179px;
 	height: 36px;
 	border-radius: 60px;
+	background-color: #1D6154;
+	font-family: 'Syne';
+	color: #ffffff;
+	cursor: pointer;
+	margin-top: 35px;
 }
 
 .login-form > .email {
