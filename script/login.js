@@ -9,8 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault(); // Empêche le comportement par défaut du formulaire
   
         // Récupérer les valeurs des champs email et password
-        const email = loginForm.querySelector('#email').value.trim();
-        const password = loginForm.querySelector('#pass').value.trim();
+        const email = loginForm.querySelector('#email').value;
+        const password = loginForm.querySelector('#pass').value;
   
         // Vérification des champs
         if (!email || !password) {
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('authToken', userData.token);
   
             // Rediriger vers la page d'accueil ou afficher un message de bienvenue
-            window.location.href = 'Portfolio-architecte-sophie-bluel/FrontEnd/index.html'; // Rediriger vers la page d'accueil
+            location.href = '../index.html'; // Rediriger vers la page d'accueil
   
         } catch (error) {
             console.error('Erreur lors de l\'authentification:', error);
