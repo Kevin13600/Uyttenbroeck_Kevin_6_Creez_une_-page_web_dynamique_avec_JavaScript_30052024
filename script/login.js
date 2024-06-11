@@ -36,11 +36,11 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('authToken', userData.token);
   
             // Rediriger vers la page d'accueil ou afficher un message de bienvenue
-            location.href = '../index.html'; // Rediriger vers la page d'accueil
+            location.href = './dashboard.html'; // Rediriger vers la page d'accueil
   
         } catch (error) {
             console.error('Erreur lors de l\'authentification:', error);
-            displayError('Échec de la connexion. Vérifiez vos informations de connexion.');
+            displayError('Erreur dans l’identifiant ou le mot de passe');
         }
     });
   

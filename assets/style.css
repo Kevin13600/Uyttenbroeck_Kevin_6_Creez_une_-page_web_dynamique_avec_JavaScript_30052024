@@ -139,9 +139,38 @@ a {
 #introduction p {
 	margin-bottom: 0.5em;
 }
+
+#portfolio {
+	margin-top: 120px;
+}
+
 #portfolio h2 {
 	text-align: center;
 	margin-bottom: 1em;
+}
+
+.container-center {
+    width: fit-content; /* Adapte la largeur au contenu */
+    margin: 50px auto; /* Centre horizontalement */
+    text-align: center; /* Pour centrer le texte à l'intérieur si nécessaire */
+}
+
+.container-center h2 {
+	margin-left: 135px;
+}
+
+.inline-block {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.header-fa {
+	margin-bottom: 25px;
+	margin-left: 31px;
+}
+
+.header-fa i {
+    margin-right: 5px;
 }
 
 .filter {
@@ -238,6 +267,10 @@ a {
 .forgot-password a {
 	color: #000000;
 	text-decoration: underline;
+}
+
+.error-message {
+	margin-top: 37px;
 }
 
 #contact {
