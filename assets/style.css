@@ -167,10 +167,56 @@ a {
 .header-fa {
 	margin-bottom: 25px;
 	margin-left: 31px;
+	cursor: pointer;
 }
 
 .header-fa i {
     margin-right: 5px;
+}
+
+/* Modale */
+.modal {
+    display: none; /* Cacher la modale par défaut */
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 50%;
+    width: 630px;
+    height: 688px;
+    transform: translate(-50%, -50%);
+    overflow: auto;
+    border-radius: 10px;
+    background-color: #ffffff;
+    border: 1px solid #888;
+	transition: opacity 0.3s ease;
+}
+
+.modal.show {
+    opacity: 1;
+}
+
+/* Contenu de la modale */
+.modal-content {
+    background-color: #fefefe;
+    margin: 60px 105px 45px 105px;
+    padding: 20px;
+    max-width: 500px; /* Largeur maximale */
+}
+
+/* Bouton de fermeture */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .filter {
