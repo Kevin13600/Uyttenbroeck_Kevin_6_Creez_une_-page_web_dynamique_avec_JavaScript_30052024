@@ -146,37 +146,35 @@ a {
 
 #portfolio h2 {
 	text-align: center;
-	margin-bottom: 1em;
 }
 
 .container-center {
-    width: fit-content; /* Adapte la largeur au contenu */
-    margin: 50px auto; /* Centre horizontalement */
-    text-align: center; /* Pour centrer le texte à l'intérieur si nécessaire */
+    display: flex;
+	justify-content: center;
+	align-items: center;
+} 
+
+.marginCenter {
+	margin-left: 125px;
 }
 
-.container-center h2 {
-	margin-left: 135px;
-}
 
 .inline-block {
     display: inline-block;
     vertical-align: middle;
 }
 
-.header-fa {
-	margin-bottom: 25px;
+.modifyBtn {
 	margin-left: 31px;
 	cursor: pointer;
 }
 
-.header-fa i {
+.modifyBtn i {
     margin-right: 5px;
 }
 
 /* Modale */
 .modal {
-    display: none; /* Cacher la modale par défaut */
     position: fixed;
     z-index: 1000;
     left: 50%;
@@ -184,29 +182,130 @@ a {
     width: 630px;
     height: 688px;
     transform: translate(-50%, -50%);
-    overflow: auto;
     border-radius: 10px;
     background-color: #ffffff;
     border: 1px solid #888;
-	transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease;
 }
 
 .modal.show {
+    display: block;
     opacity: 1;
+    visibility: visible;
 }
 
-/* Contenu de la modale */
-.modal-content {
-    background-color: #fefefe;
-    margin: 60px 105px 45px 105px;
-    padding: 20px;
-    max-width: 500px; /* Largeur maximale */
+#modal-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 105px; 
+}
+
+#modal-container h2 {
+    margin: 60px 0 46px;
+    font-family: 'Work Sans', sans-serif;
+    color: #000;
+    font-weight: 400;
+}
+
+#modal-container hr {
+    margin-top: 67px;
+    width: 420px;
+    border: 1px transparent #B3B3B3;
+	 
+}
+
+.add-file-container {
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.add-file-container .fa-image {
+	font-size: 72px;
+	color: rgba(162, 168, 172, 0.4);
+}
+
+.add-file-container label {
+	width: 173px;
+	height: 36px;
+	border-radius: 50px;
+	background-color: rgba(162, 168, 172, 0.4);
+	text-align: center;
+	display: flex;
+    align-items: center;
+    justify-content: center;
+	font-family: Work Sans;
+	font-size: 14px;
+	font-weight: 500;
+}
+
+
+.add-file-container span {
+font-family: Work Sans;
+font-size: 10px;
+font-weight: 400;
+margin-top: 6px;
+}
+
+#add-photo-form {
+	display: flex;
+    flex-direction: column;
+    align-items: start;
+	margin-top: 49px;
+}
+
+#add-photo-form label {
+	margin-bottom: 10px;
+	font-family: Work Sans;
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 16.42px;
+	text-align: left;
+}
+
+#add-photo-form label:last-of-type {
+	margin-top: 21px;
+}
+
+#add-photo-form input {
+	width: 420px;
+	height: 51px;
+	border: none;
+}
+
+.add-file-container {
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.fa-image {
+	font-size: 72px;
+}
+
+.modal-btn {
+    width: 237px;
+    height: 36px;
+    border-radius: 60px;
+    background-color: #1D6154;
+    font-family: 'Syne', sans-serif;
+    color: #ffffff;
+    cursor: pointer;
+    margin: 38px 0 45px;
+	border: none;
+}
+
+.modal-btn-last {
+	background-color: #A7A7A7;
 }
 
 /* Bouton de fermeture */
 .close {
-    color: #aaa;
-    float: right;
+    position: absolute;
+    right: 26px;
+    top: 26px;
+    color: #000;
     font-size: 28px;
     font-weight: bold;
     cursor: pointer;
@@ -216,7 +315,54 @@ a {
 .close:focus {
     color: #000;
     text-decoration: none;
+}
+
+/* Galerie modale */
+#modal-gallery {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 13px 0; 
+}
+
+#modal-gallery .work-image {
+    width: 76.86px;
+    height: 102.57px;
+    object-fit: cover;
+    border-radius: 5px;
+    position: relative;
+}
+
+#modal-gallery .delete-icon {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: #fff;
+    font-size: 11px;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 4px;
     cursor: pointer;
+    z-index: 10;
+    transition: border 0.3s;
+}
+
+#modal-gallery .delete-icon:hover {
+    border: 1px solid yellow;
+}
+
+.photo {
+    position: relative;
+    display: inline-block;
+    width: 76.86px; /* Dimensions exactes */
+    height: 102.57px; /* Dimensions exactes */
+    margin: 5px; /* Pour espacer les images */
+    overflow: hidden; /* Cache toute partie de l'image qui dépasse */
+}
+
+.arrow-left {
+	font-size: 21px;
+	position: absolute;
+	top: 26px;
+	left: 26px;
 }
 
 .filter {
@@ -293,7 +439,9 @@ a {
 	color: #ffffff;
 	cursor: pointer;
 	margin-top: 35px;
+	border: none;
 }
+
 
 .login-form > .email {
 	margin-bottom: 30px;
@@ -367,5 +515,9 @@ footer nav ul {
 	display: flex;
 	justify-content: flex-end;
 	margin: 2em
+}
+
+.displayNone {
+	display: none;
 }
 

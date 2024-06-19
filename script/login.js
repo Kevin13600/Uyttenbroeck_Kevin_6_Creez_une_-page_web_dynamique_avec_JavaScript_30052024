@@ -1,5 +1,3 @@
-import { fetchData } from '../script/api.js';
-
 document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.querySelector('.login-form');
     const submitButton = loginForm.querySelector('button[type="submit"]');
@@ -33,10 +31,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
   
             // Stocker le token d'authentification
-            localStorage.setItem('authToken', userData.token);
+            sessionStorage.setItem('authToken', userData.token);
   
             // Rediriger vers la page d'accueil ou afficher un message de bienvenue
-            location.href = './dashboard.html'; // Rediriger vers la page d'accueil
+            location.href = '../index.html'; // Rediriger vers la page d'accueil
   
         } catch (error) {
             console.error('Erreur lors de l\'authentification:', error);

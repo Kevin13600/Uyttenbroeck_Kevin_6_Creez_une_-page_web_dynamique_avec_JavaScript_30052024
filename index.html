@@ -7,8 +7,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <meta name="description" content="">
-    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
 <header>
@@ -17,15 +18,16 @@
         <ul>
             <li>projets</li>
             <li>contact</li>
-            <a href="../pages/login.html"><li>login</li></a>
-            <li><img src="../assets/icons/instagram.png" alt="Instagram"></li>
+            <a href="pages/login.html" id="loginBtn"><li>login</li></a>
+            <a href="#" id="logoutBtn" class="displayNone"><li>logout</li></a>
+            <li><img src="assets/icons/instagram.png" alt="Instagram"></li>
         </ul>
     </nav>
 </header>
 <main>
     <section id="introduction">
         <figure>
-            <img src="../assets/images/sophie-bluel.png" alt="Sophie Bluel">
+            <img src="assets/images/sophie-bluel.png" alt="Sophie Bluel">
         </figure>
         <article>
             <h2>Designer d'espace</h2>
@@ -35,7 +37,23 @@
         </article>
     </section>
     <section id="portfolio">
-        <h2>Mes Projets</h2>
+        <div id ="container" class="container-center">
+            <h2 class="inline-block">Mes Projets</h2>
+            <div class="modifyBtn inline-block">
+                <i class="fa-regular fa-pen-to-square"></i>
+                <span>Modifier</span>
+            </div>
+        </div>
+        <div id="modal" class="modal displayNone">
+            <div id="modal-container">
+                <span class="close">&times;</span>
+                <h2>Galerie photo</h2>
+                <div id="modal-gallery" class="modal-gallery">
+                </div>
+                <hr>
+                <button type="submit" class="modal-btn">Ajouter une photo</button>
+            </div>
+        </div>
 		<div class="filter">
 		</div>
         <div id="gallery" class="gallery">
@@ -63,7 +81,7 @@
     </nav>
 </footer>
 <pre id="error"></pre>
-<script type="module" src="../script/api.js"></script>
-<script type="module" src="../script/main.js"></script>
+<script type="module" src="script/api.js"></script>
+<script type="module" src="script/main.js"></script>
 </body>
 </html>

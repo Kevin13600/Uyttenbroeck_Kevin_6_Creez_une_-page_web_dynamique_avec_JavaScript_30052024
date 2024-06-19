@@ -47,5 +47,17 @@ export async function fetchCategories() {
   }
 }
 
+// API Web Storage
+// Si la clé existe et a une valeur, elle retourne cette valeur (une chaîne de caractères, ou null si la clé n'existe pas).
+// Opérateur conditionnel ternaire (? :) : Syntaxe : condition ? valeur_si_vrai : valeur_si_faux.
+export function isAdmin() {
+  return sessionStorage.getItem('authToken') ? true : false
+}
+
+export function logOut() {
+  sessionStorage.clear();
+  location.href = './pages/login.html';
+}
+
 
 
