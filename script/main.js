@@ -8,6 +8,7 @@ const modifyBtn = document.querySelector('.modifyBtn');
 const blockTitle = document.querySelector('.container-center h2');
 
 let allItems = []; // Déclaration globale
+let initialModalContent = ""; // Contenu initial de la modale
 
 // Ajout d'un écouteur pour le bouton "Déconnexion"
 logoutBtn.addEventListener("click", () => {
@@ -47,22 +48,27 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalContainer = document.getElementById("modal-container");
 
   // Écouteur pour le clic sur le bouton "Modifier"
-  modifyBtn.addEventListener("click", (event) => {
+  modifyBtn.addEventListener("click", async (event) => {
     event.preventDefault();
-    generateGalleryView().then(content => showModal(content));
+    const content = await generateGalleryView();
+    showModal(content);
   });
 
   // Écouteur pour les clics dans la modale
-  document.addEventListener("click", (event) => {
+  document.addEventListener("click", async (event) => {
     if (event.target.classList.contains("close")) {
       hideModal();
     } else if (event.target.classList.contains("modal-btn") && event.target.innerText === "Ajouter une photo") {
       const content = generateAddPhotoForm();
       showModal(content);
+    } else if (event.target.classList.contains("arrow-left")) {
+      // Retour à la première modale et régénération de la galerie
+      const content = await generateGalleryView();
+      showModal(content);
     } else if (event.target.classList.contains("delete-icon")) {
-      const photoDiv = event.target.closest(".photo");
-      const photoUrl = photoDiv.querySelector("img").src;
-      deletePhoto(photoUrl, photoDiv);
+      const photoDiv = event.target.closest(".modal-photo");
+      const photoId = extractPhotoIdFromElement(photoDiv); // Implémentez cette fonction pour extraire l'ID
+      deletePhoto(photoId, photoDiv);
     }
   });
 
@@ -91,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
       data.forEach(work => {
         if (work.imageUrl) {
           galleryItems += `
-            <div class="photo" style="position: relative;">
+            <div class="modal-photo" data-photo-id="${work.id}" style="position: relative;">
               <img src="${work.imageUrl}" alt="Image" class="work-image">
               <i class="fa-solid fa-trash-can delete-icon"></i>
             </div>`;
@@ -101,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return `
         <span class="close">&times;</span>
         <h2>Galerie photo</h2>
-        <div id="modal-gallery" class="gallery">
+        <div id="modal-gallery" class="modal-gallery">
           ${galleryItems}
         </div>
         <hr>
@@ -112,7 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return `
         <span class="close">&times;</span>
         <h2>Galerie photo</h2>
-        <div id="modal-gallery" class="gallery">
+        <div id="modal-gallery" class="modal-gallery">
           <p>Erreur lors de la récupération des images.</p>
         </div>
         <hr>
@@ -144,24 +150,44 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
+  
+
   // Fonction pour supprimer une photo de la galerie
-  async function deletePhoto(photoUrl, photoDiv) {
+  async function deletePhoto(photoId, photoDiv) {
+    console.log("ID de la photo à supprimer:", photoId);
+
     try {
-      const response = await fetch('http://localhost:5678/api/works', {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ imageUrl: photoUrl })
-      });
-      if (response.ok) {
-        photoDiv.remove();
+      const userConfirmed = window.confirm("Êtes-vous sûr de vouloir supprimer cette photo ?");
+      if (userConfirmed) {
+        const response = await fetch(`http://localhost:5678/api/works/${photoId}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
+          }
+        });
+
+        if (response.ok) {
+          if (photoDiv) {
+            photoDiv.remove(); // Supprime l'élément visuel immédiatement
+            console.log('Photo supprimée avec succès');
+          } else {
+            console.warn('Élément DOM photoDiv est null ou non défini.');
+          }
+        } else {
+          console.error('Erreur lors de la suppression de la photo:', response.status, response.statusText);
+        }
       } else {
-        console.error('Erreur lors de la suppression de la photo');
+        console.log('Suppression annulée par l\'utilisateur');
       }
     } catch (error) {
       console.error('Erreur:', error);
     }
+  }
+
+  // Fonction pour extraire l'ID de la photo à partir de l'élément DOM
+  function extractPhotoIdFromElement(photoElement) {
+    return photoElement.getAttribute('data-photo-id');
   }
 });
 
@@ -228,15 +254,16 @@ function populateGallery(works) {
   const gallery = document.getElementById("gallery");
   gallery.innerHTML = "";
 
-  works.forEach(({ imageUrl, title }) => {
+  works.forEach(({ id, imageUrl, title }) => {
     const figure = document.createElement("figure");
-    const img = document.createElement("img");
-    img.src = imageUrl;
-    img.alt = title;
-    const figcaption = document.createElement("figcaption");
-    figcaption.textContent = title;
-    figure.appendChild(img);
-    figure.appendChild(figcaption);
+    figure.classList.add("gallery-item");
+
+    const image = document.createElement("img");
+    image.src = imageUrl;
+    image.alt = title;
+    image.classList.add("gallery-image");
+
+    figure.appendChild(image);
     gallery.appendChild(figure);
   });
 }

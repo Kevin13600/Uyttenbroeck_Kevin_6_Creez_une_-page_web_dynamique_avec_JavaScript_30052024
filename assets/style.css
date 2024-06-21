@@ -219,6 +219,7 @@ a {
 	display: flex;
     flex-direction: column;
     align-items: center;
+	cursor: pointer;
 }
 
 .add-file-container .fa-image {
@@ -321,7 +322,7 @@ margin-top: 6px;
 #modal-gallery {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 13px 0; 
+    gap: 13px 9px; 
 }
 
 #modal-gallery .work-image {
@@ -363,6 +364,7 @@ margin-top: 6px;
 	position: absolute;
 	top: 26px;
 	left: 26px;
+	cursor: pointer;
 }
 
 .filter {
