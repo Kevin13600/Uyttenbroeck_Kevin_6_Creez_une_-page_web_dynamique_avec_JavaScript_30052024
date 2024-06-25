@@ -157,7 +157,7 @@ export function generateAddPhotoForm() {
 }
 
 // Fonction pour supprimer une photo de la galerie
-async function deletePhoto(photoId, photoDiv, allItems, gallery) {
+export async function deletePhoto(photoId, photoDiv, allItems, gallery) {
   console.log("ID de la photo à supprimer:", photoId);
 
   try {
