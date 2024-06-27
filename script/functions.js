@@ -134,26 +134,33 @@ export async function generateGalleryView(fetchData, allItems) {
       `;
 }
 
-export function generateAddPhotoForm() {
+export function generateAddPhotoForm(categories) {
+  const categoryOptions = categories.map(category => 
+    `<option value="${category.id}">${category.name}</option>`
+  ).join('');
+
   return `
-      <i class="fa-solid fa-arrow-left arrow-left"></i>
-      <span class="close">&times;</span>
-      <h2>Ajout photo</h2>
+    <i class="fa-solid fa-arrow-left arrow-left"></i>
+    <span class="close">&times;</span>
+    <form id="add-photo-form">
       <div class="add-file-container">
+        <h2>Ajout photo</h2>
         <i class="fa-regular fa-image"></i>
         <label for="form-file">+ Ajouter photo</label>
-        <input type="file" id="form-file" name="form-file" accept=".jpg, .png" class="displayNone" required>
+        <input type="file" id="form-file" name="image" accept=".jpg, .png" class="displayNone" required>
         <span>jpg, png : 4mo max</span>
       </div>
-      <form id="add-photo-form">
-        <label for="form-title">Titre</label>
-        <input type="text" id="form-title" name="form-title" required>
-        <label for="form-category">Catégorie</label>
-        <input type="text" id="form-category" name="form-category" required>
-      </form>
+      <label for="form-title">Titre</label>
+      <input type="text" id="form-title" name="title" required>
+      <label for="form-category">Catégorie</label>
+      <select id="form-category" name="category" required>
+        <option value=""></option>
+        ${categoryOptions}
+      </select>
       <hr>
       <button type="submit" class="modal-btn modal-btn-last">Valider</button>
-    `;
+    </form>
+  `;
 }
 
 // Fonction pour supprimer une photo de la galerie
@@ -202,10 +209,42 @@ export async function deletePhoto(photoId, photoDiv, allItems, gallery) {
   }
 }
 
-
-  
 export function extractPhotoIdFromElement(photoElement) {
   return photoElement.getAttribute("data-photo-id");
+}
+
+export function handleFormSubmit(event, modal, modalContainer, allItems, gallery) {
+  event.preventDefault();
+
+  const form = document.getElementById('add-photo-form');
+  const formData = new FormData(form);
+
+  // Ajoutez le fichier image au FormData
+  const fileInput = document.getElementById('form-file');
+  formData.append('image', fileInput.files[0]);
+
+  fetch('http://localhost:5678/api/works', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
+    },
+    body: formData
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Erreur lors de l\'envoi du formulaire');
+    }
+    return response.json();
+  })
+  .then(newWork => {
+    allItems.push(newWork);
+    populateGallery(allItems, gallery);
+    hideModal(modal, modalContainer);
+    alert('Nouveau projet ajouté avec succès !');
+  })
+  .catch(error => {
+    alert(`Erreur : ${error.message}`);
+  });
 }
 
 

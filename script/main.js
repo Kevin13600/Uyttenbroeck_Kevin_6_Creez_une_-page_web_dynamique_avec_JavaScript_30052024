@@ -11,7 +11,8 @@ import {
   extractPhotoIdFromElement,
   populateGallery,
   filterGallery,
-  createFilterButtons
+  createFilterButtons,
+  handleFormSubmit
 } from "./functions.js";
 
 // Sélection des éléments du DOM
@@ -44,7 +45,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if ((event.target.classList.contains("close")) || (event.target.classList.contains("modal"))) {
       hideModal(modal, modalContainer);
     } else if (event.target.classList.contains("modal-btn") && event.target.innerText === "Ajouter une photo") {
-      const content = generateAddPhotoForm();
+      const categories = await fetchCategories();
+      const content = generateAddPhotoForm(categories);
       showModal(modal, modalContainer, content);
     } else if (event.target.classList.contains("arrow-left")) {
       const content = await generateGalleryView(fetchData, allItems);
@@ -53,7 +55,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const photoDiv = event.target.closest(".modal-photo");
       const photoId = extractPhotoIdFromElement(photoDiv);
       deletePhoto(photoId, photoDiv, allItems, gallery)
-      .then((newItems)=> allItems = newItems);
+      .then((newItems) => allItems = newItems);
+    } else if (event.target.classList.contains("modal-btn") && event.target.innerText === "Valider") {
+      handleFormSubmit(event, modal, modalContainer, allItems, gallery);
     }
   });
 });
@@ -68,7 +72,3 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("error").textContent = "Erreur : " + error.message;
   }
 });
-
-
-
-
