@@ -141,7 +141,7 @@ export function generateAddPhotoForm(categories) {
 
   return `
     <i class="fa-solid fa-arrow-left arrow-left"></i>
-    <span class="close">&times;</span>
+    <span class="close close-2">&times;</span>
     <form id="add-photo-form">
       <div class="add-file-container">
         <h2>Ajout photo</h2>
