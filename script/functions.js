@@ -157,7 +157,7 @@ export function generateAddPhotoForm() {
 }
 
 // Fonction pour supprimer une photo de la galerie
-async function deletePhoto(photoId, photoDiv, allItems, gallery) {
+export async function deletePhoto(photoId, photoDiv, allItems, gallery) {
   console.log("ID de la photo à supprimer:", photoId);
 
   try {
@@ -179,11 +179,12 @@ async function deletePhoto(photoId, photoDiv, allItems, gallery) {
             console.log('Photo supprimée avec succès de la modale');
 
             // Mise à jour de la liste d'éléments
-            allItems = allItems.filter(item => item.id !== photoId);
+            allItems = allItems.filter(item => item.id != photoId);
 
             // Mise à jour de la galerie en temps réel
             populateGallery(allItems, gallery);
             console.log('Photo supprimée avec succès de la galerie');
+            return allItems;
           } else {
             console.warn('Élément DOM photoDiv est null ou non défini.');
           }

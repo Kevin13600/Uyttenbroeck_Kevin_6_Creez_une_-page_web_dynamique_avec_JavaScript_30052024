@@ -52,7 +52,8 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if (event.target.classList.contains("delete-icon")) {
       const photoDiv = event.target.closest(".modal-photo");
       const photoId = extractPhotoIdFromElement(photoDiv);
-      deletePhoto(photoId, photoDiv, fetchData, sessionStorage.getItem('authToken'));
+      deletePhoto(photoId, photoDiv, allItems, gallery)
+      .then((newItems)=> allItems = newItems);
     }
   });
 });
