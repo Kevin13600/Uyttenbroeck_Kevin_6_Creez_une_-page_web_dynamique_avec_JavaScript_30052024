@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
       deletePhoto(photoId, photoDiv, allItems, gallery)
       .then((newItems) => allItems = newItems);
     } else if (event.target.classList.contains("modal-btn") && event.target.innerText === "Valider") {
-      handleFormSubmit(event, modal, modalContainer, allItems, gallery);
+      handleFormSubmit(event, modal, modalContainer, allItems, gallery, fetchData);
     }
   });
 });

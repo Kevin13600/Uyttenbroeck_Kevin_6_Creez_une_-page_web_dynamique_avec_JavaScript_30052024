@@ -141,10 +141,10 @@ export function generateAddPhotoForm(categories) {
 
   return `
     <i class="fa-solid fa-arrow-left arrow-left"></i>
-    <span class="close">&times;</span>
+    <span class="close close-2">&times;</span>
     <form id="add-photo-form">
+    <h2>Ajout photo</h2>
       <div class="add-file-container">
-        <h2>Ajout photo</h2>
         <i class="fa-regular fa-image"></i>
         <label for="form-file">+ Ajouter photo</label>
         <input type="file" id="form-file" name="image" accept=".jpg, .png" class="displayNone" required>
@@ -213,15 +213,22 @@ export function extractPhotoIdFromElement(photoElement) {
   return photoElement.getAttribute("data-photo-id");
 }
 
-export function handleFormSubmit(event, modal, modalContainer, allItems, gallery) {
+export function handleFormSubmit(event, modal, modalContainer, allItems, gallery, fetchData, content) {
   event.preventDefault();
 
-  const form = document.getElementById('add-photo-form');
-  const formData = new FormData(form);
-
-  // Ajoutez le fichier image au FormData
+  const title = document.getElementById('form-title');
+  const category = document.getElementById('form-category');
   const fileInput = document.getElementById('form-file');
+
+  if (!title || !category || !fileInput.files[0]) {
+    alert("Veuillez remplir tous les champs et sélectionner une image.");
+    return;
+  }
+  
+  const formData = new FormData();
   formData.append('image', fileInput.files[0]);
+  formData.append('title', title.value);
+  formData.append('category', parseInt(category.value));
 
   fetch('http://localhost:5678/api/works', {
     method: 'POST',
@@ -239,14 +246,16 @@ export function handleFormSubmit(event, modal, modalContainer, allItems, gallery
   .then(newWork => {
     allItems.push(newWork);
     populateGallery(allItems, gallery);
-    hideModal(modal, modalContainer);
     alert('Nouveau projet ajouté avec succès !');
+    return generateGalleryView(fetchData, allItems);
+  })
+  .then(content => {
+    showModal(modal, modalContainer, content);
   })
   .catch(error => {
     alert(`Erreur : ${error.message}`);
   });
 }
-
 
 
 

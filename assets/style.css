@@ -263,6 +263,12 @@ margin-top: 6px;
 	margin-top: 49px;
 }
 
+
+#add-photo-form h2 {
+	width: 100%;
+	margin-top: -50px;
+}
+
 #add-photo-form label {
 	margin-bottom: 10px;
 	font-family: Work Sans;
@@ -280,6 +286,10 @@ margin-top: 6px;
 	width: 420px;
 	height: 51px;
 	border: none;
+}
+
+#add-photo-form hr {
+	margin-top: 50px;
 }
 
 .add-file-container {
@@ -312,6 +322,7 @@ margin-top: 6px;
 .close {
     position: relative;
     left: 275px;
+	top: 28px;
     color: #000;
     font-size: 30px;
     font-weight: bold;
@@ -322,6 +333,10 @@ margin-top: 6px;
 .close:focus {
     color: #000;
     text-decoration: none;
+}
+
+.close-2 {
+	top: 0;
 }
 
 .arrow-left {
