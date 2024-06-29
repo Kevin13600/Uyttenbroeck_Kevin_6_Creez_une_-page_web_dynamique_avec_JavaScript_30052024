@@ -72,3 +72,30 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("error").textContent = "Erreur : " + error.message;
   }
 });
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Fonction pour gérer le changement de fichier
+  function handleFileSelect(event) {
+    const file = event.target.files[0];
+    if (file) {
+      // Créer un élément img
+      const img = document.createElement('img');
+      img.src = URL.createObjectURL(file);
+      img.style.maxWidth = '129px';
+      img.style.maxHeight = '193px';
+
+      // Remplacer le contenu de add-file-container par l'image
+      const container = event.target.closest('.add-file-container');
+      container.innerHTML = '';
+      container.appendChild(img);
+    }
+  }
+
+  // Ajouter l'écouteur d'événements au document
+  document.addEventListener('change', function(event) {
+    if (event.target && event.target.id === 'form-file') {
+      handleFileSelect(event);
+    }
+  });
+});
