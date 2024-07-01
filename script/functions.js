@@ -139,7 +139,7 @@ export function generateAddPhotoForm(categories) {
     `<option value="${category.id}">${category.name}</option>`
   ).join('');
 
-  return `
+  const formHtml = `
     <i class="fa-solid fa-arrow-left arrow-left"></i>
     <span class="close close-2">&times;</span>
     <form id="add-photo-form">
@@ -158,10 +158,34 @@ export function generateAddPhotoForm(categories) {
         ${categoryOptions}
       </select>
       <hr>
-      <button type="submit" class="modal-btn modal-btn-last">Valider</button>
+      <button type="submit" class="modal-btn modal-btn-last" disabled>Valider</button>
     </form>
   `;
+
+  return formHtml;
 }
+
+// Fonction pour vérifier la validité du formulaire
+export function checkFormValidity() {
+  const container = document.querySelector('.add-file-container');
+  const fileInput = document.getElementById('form-file');
+  const titleInput = document.getElementById('form-title');
+  const categorySelect = document.getElementById('form-category');
+  const submitButton = document.querySelector('.modal-btn-last');
+
+  // Vérifier si un fichier a été sélectionné et si l'image a été ajoutée
+  const isFormValid = container.children.length > 0 && titleInput.value && categorySelect.value;
+  
+  if (isFormValid) {
+    submitButton.disabled = false;
+    submitButton.style.backgroundColor = '#1D6154';
+  } else {
+    submitButton.disabled = true;
+    submitButton.style.backgroundColor = '';
+  }
+}
+
+
 
 // Fonction pour supprimer une photo de la galerie
 export async function deletePhoto(photoId, photoDiv, allItems, gallery) {
@@ -218,43 +242,54 @@ export function handleFormSubmit(event, modal, modalContainer, allItems, gallery
 
   const title = document.getElementById('form-title');
   const category = document.getElementById('form-category');
-  const fileInput = document.getElementById('form-file');
+  const fileContainer = document.querySelector('.add-file-container');
 
-  if (!title || !category || !fileInput.files[0]) {
+  if (!title || !category || !fileContainer) {
     alert("Veuillez remplir tous les champs et sélectionner une image.");
     return;
   }
-  
-  const formData = new FormData();
-  formData.append('image', fileInput.files[0]);
-  formData.append('title', title.value);
-  formData.append('category', parseInt(category.value));
 
-  fetch('http://localhost:5678/api/works', {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
-    },
-    body: formData
-  })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Erreur lors de l\'envoi du formulaire');
-    }
-    return response.json();
-  })
-  .then(newWork => {
-    allItems.push(newWork);
-    populateGallery(allItems, gallery);
-    alert('Nouveau projet ajouté avec succès !');
-    return generateGalleryView(fetchData, allItems);
-  })
-  .then(content => {
-    showModal(modal, modalContainer, content);
-  })
-  .catch(error => {
-    alert(`Erreur : ${error.message}`);
-  });
+  const addedImage = fileContainer.querySelector('img');
+  if (!addedImage) {
+    alert("Veuillez sélectionner une image.");
+    return;
+  }
+
+  // Convertir l'image affichée en Blob
+  fetch(addedImage.src)
+    .then(res => res.blob())
+    .then(blob => {
+      const formData = new FormData();
+      formData.append('image', blob, 'image.jpg');
+      formData.append('title', title.value);
+      formData.append('category', parseInt(category.value));
+
+      return fetch('http://localhost:5678/api/works', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
+        },
+        body: formData
+      });
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Erreur lors de l\'envoi du formulaire');
+      }
+      return response.json();
+    })
+    .then(newWork => {
+      allItems.push(newWork);
+      populateGallery(allItems, gallery);
+      alert('Nouveau projet ajouté avec succès !');
+      return generateGalleryView(fetchData, allItems);
+    })
+    .then(content => {
+      showModal(modal, modalContainer, content);
+    })
+    .catch(error => {
+      alert(`Erreur : ${error.message}`);
+    });
 }
 
 

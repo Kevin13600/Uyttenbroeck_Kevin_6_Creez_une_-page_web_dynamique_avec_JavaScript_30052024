@@ -12,7 +12,8 @@ import {
   populateGallery,
   filterGallery,
   createFilterButtons,
-  handleFormSubmit
+  handleFormSubmit,
+  checkFormValidity
 } from "./functions.js";
 
 // Sélection des éléments du DOM
@@ -99,3 +100,18 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 });
+
+// Ajout des écouteurs d'événements après l'insertion du formulaire
+document.addEventListener('DOMContentLoaded', function() {
+  document.body.addEventListener('input', function(event) {
+    if (event.target.matches('#form-file, #form-title, #form-category')) {
+      checkFormValidity();
+    }
+  });
+  document.body.addEventListener('change', function(event) {
+    if (event.target.matches('#form-file, #form-title, #form-category')) {
+      checkFormValidity();
+    }
+  });
+});
+
