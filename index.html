@@ -12,18 +12,24 @@
     <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-<header>
-    <a href="index.html"><h1>Sophie Bluel <span>Architecte d'intérieur</span></h1></a>
-    <nav>
-        <ul>
-            <li>projets</li>
-            <li>contact</li>
-            <li><a href="pages/login.html" id="loginBtn">login</a></li>
-            <li><a href="#" id="logoutBtn" class="displayNone">logout</a></li>
-            <li><img src="assets/icons/instagram.png" alt="Instagram"></li>
-        </ul>
-    </nav>
-</header>
+    <div class="edit-bar displayNone">
+        <i class="fa-regular fa-pen-to-square"></i>
+        <span>Mode édition</span>
+    </div>
+    <header>
+        <a href="index.html">
+            <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
+        </a>
+        <nav>
+            <ul>
+                <li>projets</li>
+                <li>contact</li>
+                <li><a href="pages/login.html" id="loginBtn">login</a></li>
+                <li><a href="#" id="logoutBtn" class="displayNone">logout</a></li>
+                <li><img src="assets/icons/instagram.png" alt="Instagram"></li>
+            </ul>
+        </nav>
+    </header>
 <main>
     <section id="introduction">
         <figure>
@@ -46,12 +52,6 @@
         </div>
         <div id="modal" class="modal displayNone">
             <div id="modal-container">
-                <span class="close">&times;</span>
-                <h2>Galerie photo</h2>
-                <div id="modal-gallery" class="modal-gallery">
-                </div>
-                <hr>
-                <button type="submit" class="modal-btn">Ajouter une photo</button>
             </div>
         </div>
 		<div class="filter">

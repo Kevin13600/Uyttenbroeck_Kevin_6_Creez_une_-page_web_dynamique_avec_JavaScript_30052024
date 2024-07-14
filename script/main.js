@@ -25,6 +25,8 @@ const modal = document.getElementById("modal");
 const modalContainer = document.getElementById("modal-container");
 const gallery = document.getElementById("gallery");
 const filterContainer = document.querySelector(".filter");
+const editBar = document.querySelector(".edit-bar");
+const header = document.querySelector('header');
 
 let allItems = [];
 let initialModalContent = "";
@@ -33,7 +35,7 @@ logoutBtn.addEventListener("click", () => {
   logOut();
 });
 
-updateUI(isAdmin, () => showAdminUI(logoutBtn, loginBtn, modifyBtn, blockTitle), () => showRegularUserUI(logoutBtn, loginBtn, modifyBtn));
+updateUI(isAdmin, () => showAdminUI(logoutBtn, loginBtn, modifyBtn, blockTitle, editBar, header), () => showRegularUserUI(logoutBtn, loginBtn, modifyBtn, editBar, header));
 
 document.addEventListener("DOMContentLoaded", () => {
   modifyBtn.addEventListener("click", async (event) => {
@@ -53,10 +55,15 @@ document.addEventListener("DOMContentLoaded", () => {
       const content = await generateGalleryView(fetchData, allItems);
       showModal(modal, modalContainer, content);
     } else if (event.target.classList.contains("delete-icon")) {
+      const userConfirmed = window.confirm("Êtes-vous sûr de vouloir supprimer cette photo ?");
+      if (userConfirmed) {
       const photoDiv = event.target.closest(".modal-photo");
       const photoId = extractPhotoIdFromElement(photoDiv);
       deletePhoto(photoId, photoDiv, allItems, gallery)
       .then((newItems) => allItems = newItems);
+    } else {
+      console.log('Suppression annulée par l\'utilisateur');
+    }
     } else if (event.target.classList.contains("modal-btn") && event.target.innerText === "Valider") {
       handleFormSubmit(event, modal, modalContainer, allItems, gallery, fetchData);
     }

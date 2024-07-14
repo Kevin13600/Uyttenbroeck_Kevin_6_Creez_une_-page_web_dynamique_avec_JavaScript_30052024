@@ -7,14 +7,18 @@ export function updateUI(isAdmin, showAdminUI, showRegularUserUI) {
   }
 }
 
-export function showAdminUI(logoutBtn, loginBtn, modifyBtn, blockTitle) {
+export function showAdminUI(logoutBtn, loginBtn, modifyBtn, blockTitle, editBar, header) {
+  editBar.classList.remove("displayNone");
+  header.classList.add("edit-mode-active");
   logoutBtn.classList.remove("displayNone");
   loginBtn.classList.add("displayNone");
   modifyBtn.classList.remove("displayNone");
   blockTitle.classList.add("marginCenter");
 }
 
-export function showRegularUserUI(logoutBtn, loginBtn, modifyBtn) {
+export function showRegularUserUI(logoutBtn, loginBtn, modifyBtn, editBar, header) {
+  editBar.classList.add("displayNone");
+  header.classList.remove("edit-mode-active");
   logoutBtn.classList.add("displayNone");
   loginBtn.classList.remove("displayNone");
   modifyBtn.classList.add("displayNone");
@@ -56,14 +60,7 @@ export function populateGallery(works, gallery) {
     populateGallery(filteredItems, gallery);
   }
   
-  export async function createFilterButtons(
-    isAdmin,
-    fetchCategories,
-    filterGallery,
-    filterContainer,
-    allItems,
-    gallery
-  ) {
+  export async function createFilterButtons(isAdmin, fetchCategories, filterGallery, filterContainer, allItems, gallery) {
     if (!isAdmin()) {
       filterContainer.innerHTML = "";
   
@@ -192,8 +189,7 @@ export async function deletePhoto(photoId, photoDiv, allItems, gallery) {
   console.log("ID de la photo à supprimer:", photoId);
 
   try {
-    const userConfirmed = window.confirm("Êtes-vous sûr de vouloir supprimer cette photo ?");
-    if (userConfirmed) {
+    
       const response = await fetch(`http://localhost:5678/api/works/${photoId}`, {
         method: 'DELETE',
         headers: {
@@ -225,9 +221,7 @@ export async function deletePhoto(photoId, photoDiv, allItems, gallery) {
       } else {
         console.error('Erreur lors de la suppression de la photo:', response.status, response.statusText);
       }
-    } else {
-      console.log('Suppression annulée par l\'utilisateur');
-    }
+    
   } catch (error) {
     console.error('Erreur:', error);
   }
@@ -243,11 +237,6 @@ export function handleFormSubmit(event, modal, modalContainer, allItems, gallery
   const title = document.getElementById('form-title');
   const category = document.getElementById('form-category');
   const fileContainer = document.querySelector('.add-file-container');
-
-  if (!title || !category || !fileContainer) {
-    alert("Veuillez remplir tous les champs et sélectionner une image.");
-    return;
-  }
 
   const addedImage = fileContainer.querySelector('img');
   if (!addedImage) {
