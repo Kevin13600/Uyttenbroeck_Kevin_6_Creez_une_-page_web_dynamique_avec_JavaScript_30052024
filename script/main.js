@@ -97,6 +97,10 @@ document.addEventListener('DOMContentLoaded', function() {
       const container = event.target.closest('.add-file-container');
       container.innerHTML = '';
       container.appendChild(img);
+
+      container.dataset.fileName = file.name;
+
+      checkFormValidity();
     }
   }
 

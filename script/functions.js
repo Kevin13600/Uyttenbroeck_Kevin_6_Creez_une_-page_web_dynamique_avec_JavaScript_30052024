@@ -233,23 +233,30 @@ export function extractPhotoIdFromElement(photoElement) {
 
 export function handleFormSubmit(event, modal, modalContainer, allItems, gallery, fetchData, content) {
   event.preventDefault();
-
   const title = document.getElementById('form-title');
   const category = document.getElementById('form-category');
   const fileContainer = document.querySelector('.add-file-container');
-
   const addedImage = fileContainer.querySelector('img');
+  
   if (!addedImage) {
     alert("Veuillez sélectionner une image.");
     return;
   }
 
-  // Convertir l'image affichée en Blob
+  // Récupérer le nom du fichier stocké
+  const fileName = fileContainer.dataset.fileName;
+
   fetch(addedImage.src)
     .then(res => res.blob())
     .then(blob => {
+      // Vérification de la taille (4Mo max)
+      const maxSize = 4 * 1024 * 1024; // 4Mo en octets
+      if (blob.size > maxSize) {
+        throw new Error("L'image est trop volumineuse. La taille maximale est de 4Mo.");
+      }
+
       const formData = new FormData();
-      formData.append('image', blob, 'image.jpg');
+      formData.append('image', blob, fileName);
       formData.append('title', title.value);
       formData.append('category', parseInt(category.value));
 
@@ -277,9 +284,7 @@ export function handleFormSubmit(event, modal, modalContainer, allItems, gallery
       showModal(modal, modalContainer, content);
     })
     .catch(error => {
+      console.error("Erreur lors de l'ajout du projet:", error);
       alert(`Erreur : ${error.message}`);
     });
 }
-
-
-
